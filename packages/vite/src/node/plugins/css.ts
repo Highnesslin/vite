@@ -95,7 +95,17 @@ export interface CSSModulesOptions {
 
 const cssLangs = `\\.(css|less|sass|scss|styl|stylus|pcss|postcss)($|\\?)`
 const cssLangRE = new RegExp(cssLangs)
-const cssModuleRE = new RegExp(`\\.module${cssLangs}`)
+
+const configFile = path.resolve(process.cwd(), 'vite.config.js');
+
+const userCssModuleRe = configFile.css
+  ? configFile.css.modules
+    ? configFile.css.modules.test
+    : null
+  : null;
+
+const cssModuleRE = userCssModuleRe || new RegExp(`\\.module${cssLangs}`);
+
 const directRequestRE = /(\?|&)direct\b/
 const htmlProxyRE = /(\?|&)html-proxy\b/
 const commonjsProxyRE = /\?commonjs-proxy/
